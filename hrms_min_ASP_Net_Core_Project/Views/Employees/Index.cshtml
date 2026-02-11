@@ -60,8 +60,16 @@
                 @Html.DisplayFor(modelItem => item.Salary)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ProfileImage)
-            </td>
+                @* @Html.DisplayFor(modelItem => item.ProfileImage) *@
+                    @if (!string.IsNullOrEmpty(item.ProfileImage))
+                    {
+                        <img src="~/image/@item.ProfileImage" width="60" height="60" />
+                        
+                    }else
+                    {
+                        <img src="~/image/no_image.png" width="60" height="60" />
+                    }
+                </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |

@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using hrms_min_ASP_Net_Core_Project.Models;
+using System.Reflection;
+using Microsoft.AspNetCore.Http;
 
 namespace hrms_min_ASP_Net_Core_Project.Controllers
 {
@@ -53,10 +55,26 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Desigantion,JoingDate,Salary,ProfileImage")] Employee employee)
+        public async Task<IActionResult> Create([Bind("Id,Name,Desigantion,JoingDate,Salary,ProfileImage")] Employee employee, IFormFile? ImageFile)
         {
             if (ModelState.IsValid)
             {
+                if (ImageFile != null && ImageFile.Length > 0)
+                {
+                    var extension = Path.GetExtension(ImageFile.FileName).ToLower();
+                    if (extension is ".jpg" or ".jpeg" or ".png" or ".webp" or ".pdf")
+                    {
+                        var fileName = Guid.NewGuid().ToString() + extension;
+                        var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image", fileName);
+
+                        using (var stream = new FileStream(imagePath, FileMode.Create))
+                        {
+                            await ImageFile.CopyToAsync(stream);
+                        }
+                        employee.ProfileImage = fileName;
+                    }
+                }
+
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
                 TempData["InsertMessage"] = "Employee created successfully!";
@@ -86,7 +104,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Desigantion,JoingDate,Salary,ProfileImage")] Employee employee)
+        public async Task<IActionResult> Edit(int id, Employee employee, IFormFile? ImageFile)
         {
             if (id != employee.Id)
             {
@@ -97,7 +115,35 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             {
                 try
                 {
-                    _context.Update(employee);
+                    var existingEmployee = await _context.Employees.AsNoTracking().FirstOrDefaultAsync(e => e.Id == id);
+                    if (existingEmployee == null)
+                    {
+                        return NotFound();
+                    }
+                    if (ImageFile != null && ImageFile.Length > 0)
+                    {
+                        var extension = Path.GetExtension(ImageFile.FileName).ToLower();
+
+                        if (extension is ".jpg" or ".jpeg" or ".png" or ".webp" or ".pdf")
+                        {                
+                            var fileName = Guid.NewGuid().ToString() + extension;
+                            var imagePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/image", fileName);
+
+                            using (var stream = new FileStream(imagePath, FileMode.Create))
+                            {
+                                await ImageFile.CopyToAsync(stream);
+                            }
+                            employee.ProfileImage = fileName;
+                        }
+
+                    }
+                    else
+                    {
+                        employee.ProfileImage = existingEmployee.ProfileImage;
+                    }
+
+
+                        _context.Update(employee);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
@@ -123,6 +169,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             {
                 return NotFound();
             }
+
 
             var employee = await _context.Employees
                 .FirstOrDefaultAsync(m => m.Id == id);

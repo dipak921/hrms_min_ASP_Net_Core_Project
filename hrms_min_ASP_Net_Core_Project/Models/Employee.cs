@@ -16,12 +16,13 @@ namespace hrms_min_ASP_Net_Core_Project.Models
         [StringLength(50)]
         public string Desigantion { get; set; }
 
+       
         [Required(ErrorMessage = "Joining Date is required")]
-        [Column("Joining Date", TypeName = "varchar(50)")]
+        [Column("Date of Joining", TypeName = "varchar(50)")]
         public DateTime JoingDate  { get; set; }
 
-
-        [Range(1000, 10000000, ErrorMessage = "Salary must be between 1000 and 100000")]
+        [Required]
+        [Range(1000, 10000000, ErrorMessage = "Salary must be between 1000 and 1000000")]
         [Precision(18,2)]
         public decimal Salary { get; set; }
 
