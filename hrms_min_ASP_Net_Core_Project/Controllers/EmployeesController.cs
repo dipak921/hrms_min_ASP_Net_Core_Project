@@ -59,6 +59,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             {
                 _context.Add(employee);
                 await _context.SaveChangesAsync();
+                TempData["InsertMessage"] = "Employee created successfully!";
                 return RedirectToAction(nameof(Index));
             }
             return View(employee);
@@ -145,6 +146,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             }
 
             await _context.SaveChangesAsync();
+            TempData["DeleteMessage"] = "This Employee get ou in my Company";
             return RedirectToAction(nameof(Index));
         }
 
