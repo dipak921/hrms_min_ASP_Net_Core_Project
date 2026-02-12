@@ -28,5 +28,8 @@ namespace hrms_min_ASP_Net_Core_Project.Models
 
         [Display(Name = "Profile Image Path")]
         public string? ProfileImage {get; set; }
-}
+
+        // Navigation property for the many-to-many relationship
+        public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();
+    }
 }

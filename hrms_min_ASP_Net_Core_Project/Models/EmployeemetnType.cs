@@ -1,19 +1,21 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace hrms_min_ASP_Net_Core_Project.Models
 {
-    public class Department
+    public class EmployeemetnType
     {
         [Key]
         public int Id { get; set; }
 
-        
-        [Display(Name = "Department Name")]
-        public string Name { get; set; }
+        public int EmployeeId { get; set; }
 
-        // Navigation property for the many-to-many relationship
+        public string EmployeementType { get; set; }
+
+        public Employee? Employee { get; set; }
+
+
         public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();
+
 
     }
 }
