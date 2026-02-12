@@ -23,9 +23,9 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
-<table class="table">
+<table class="table table-striped-columns table-bordered table-hover align-middle text-center shadow-sm">
     <thead>
-        <tr>
+        <tr class="table-dark table-bordered">
             <th>
                 @Html.DisplayNameFor(model => model.Name)
             </th>
@@ -63,17 +63,17 @@
                 @* @Html.DisplayFor(modelItem => item.ProfileImage) *@
                     @if (!string.IsNullOrEmpty(item.ProfileImage))
                     {
-                        <img src="~/image/@item.ProfileImage" width="60" height="60" />
+                        <img src="~/image/@item.ProfileImage" width="60" height="60" class="rounded-circle" />
                         
                     }else
                     {
-                        <img src="~/image/no_image.png" width="60" height="60" />
+                        <img src="~/image/no_image.png" width="60" height="60" class="rounded-circle" />
                     }
                 </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-primary">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
 }
