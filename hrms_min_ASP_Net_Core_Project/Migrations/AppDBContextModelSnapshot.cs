@@ -22,6 +22,23 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.City", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Cities");
+                });
+
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Department", b =>
                 {
                     b.Property<int>("Id")
@@ -85,26 +102,31 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
 
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
-                    b.Property<string>("EmployeemetnTypeId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int?>("EmployeemetnTypeId1")
+                    b.Property<int>("EmployeemetnTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CityId");
 
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("EmployeemetnTypeId1");
+                    b.HasIndex("EmployeemetnTypeId");
 
                     b.ToTable("EmployeeDepartments");
                 });
@@ -196,6 +218,10 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.EmployeeDepartment", b =>
                 {
+                    b.HasOne("hrms_min_ASP_Net_Core_Project.Models.City", "City")
+                        .WithMany("EmployeeDepartments")
+                        .HasForeignKey("CityId");
+
                     b.HasOne("hrms_min_ASP_Net_Core_Project.Models.Department", "Department")
                         .WithMany("EmployeeDepartments")
                         .HasForeignKey("DepartmentId")
@@ -210,13 +236,22 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
 
                     b.HasOne("hrms_min_ASP_Net_Core_Project.Models.EmployeemetnType", "EmployeemetnType")
                         .WithMany("EmployeeDepartments")
-                        .HasForeignKey("EmployeemetnTypeId1");
+                        .HasForeignKey("EmployeemetnTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
 
                     b.Navigation("Department");
 
                     b.Navigation("Employee");
 
                     b.Navigation("EmployeemetnType");
+                });
+
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.City", b =>
+                {
+                    b.Navigation("EmployeeDepartments");
                 });
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Department", b =>

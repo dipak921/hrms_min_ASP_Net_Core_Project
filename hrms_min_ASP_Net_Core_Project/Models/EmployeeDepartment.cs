@@ -4,16 +4,21 @@ namespace hrms_min_ASP_Net_Core_Project.Models
 {
     public class EmployeeDepartment
     {
-        public int  Id { get; set; }
+        public int Id { get; set; }
 
-        [Required,Display(Name = "Employee Name")]
+        [Required, Display(Name = "Employee Name")]
         public int EmployeeId { get; set; }
 
         [Required, Display(Name = "Departmetn Name")]
         public int DepartmentId { get; set; }
 
-        [Required, Display(Name = "Employmeng Type")]
-        public string EmployeemetnTypeId { get; set; }
+        // FIX HERE
+        [Required, Display(Name = "Emplyoment Type")]
+        public int EmployeemetnTypeId { get; set; }
+
+        [Required, Display(Name = "City Name")]
+        public string  CityName { get; set; }
+
 
         [Required, Display(Name = "Branch Name")]
         public string Branch { get; set; }
@@ -22,6 +27,8 @@ namespace hrms_min_ASP_Net_Core_Project.Models
         public Employee? Employee { get; set; }
         public EmployeemetnType? EmployeemetnType { get; set; }
         public Department? Department { get; set; }
+
+        public City? City { get; set; }
 
 
     }

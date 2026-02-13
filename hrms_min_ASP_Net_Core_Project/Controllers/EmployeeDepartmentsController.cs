@@ -21,7 +21,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // GET: EmployeeDepartments
         public async Task<IActionResult> Index()
         {
-            var appDBContext = _context.EmployeeDepartments.Include(e => e.Department).Include(e => e.Employee);
+            var appDBContext = _context.EmployeeDepartments.Include(e => e.Department).Include(e => e.Employee).Include(e => e.EmployeemetnType).Include(e=>e.CityName);
             return View(await appDBContext.ToListAsync());
         }
 
@@ -36,6 +36,8 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             var employeeDepartment = await _context.EmployeeDepartments
                 .Include(e => e.Department)
                 .Include(e => e.Employee)
+                .Include(e => e.EmployeemetnType)
+                .Include(e => e.CityName)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employeeDepartment == null)
             {
@@ -51,6 +53,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
             ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType");
+            ViewData["CityName"] = new SelectList(_context.Cities, "CityName", "CityName");
 
             return View();
         }
@@ -71,6 +74,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
             ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId);
+            ViewData["CityName"] = new SelectList(_context.Cities, "CityName", "CityName", employeeDepartment.CityName);
             return View(employeeDepartment);
         }
 
@@ -90,6 +94,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
             ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId);
+            ViewData["CityName"] = new SelectList(_context.Cities, "CityName", "CityName", employeeDepartment.CityName);
             return View(employeeDepartment);
         }
 
@@ -98,7 +103,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,DepartmentId,EmployeemetnTypeId,Branch")] EmployeeDepartment employeeDepartment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,DepartmentId,EmployeemetnTypeId,Branch,City")] EmployeeDepartment employeeDepartment)
         {
             if (id != employeeDepartment.Id)
             {
@@ -127,7 +132,9 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
-            ViewData["EmployeemetnTypeId"]= new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId); return View(employeeDepartment);
+            ViewData["EmployeemetnTypeId"]= new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId); 
+            ViewData["CityName"] = new SelectList(_context.Cities, "CityName", "CityName", employeeDepartment.CityName);
+            return View(employeeDepartment);
         }
 
         // GET: EmployeeDepartments/Delete/5
@@ -141,6 +148,8 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             var employeeDepartment = await _context.EmployeeDepartments
                 .Include(e => e.Department)
                 .Include(e => e.Employee)
+                .Include(e => e.EmployeemetnType)
+                .Include(e => e.CityName)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (employeeDepartment == null)
             {

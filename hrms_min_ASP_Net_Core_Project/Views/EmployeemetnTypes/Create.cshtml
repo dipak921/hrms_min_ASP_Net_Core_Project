@@ -12,20 +12,10 @@
     <div class="col-md-4">
         <form asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            @* <div class="form-group">
+            <div class="form-group">
                 <label asp-for="EmployeementType" class="control-label"></label>
                 <input asp-for="EmployeementType" class="form-control" />
                 <span asp-validation-for="EmployeementType" class="text-danger"></span>
-            </div> *@
-            <div class="form-group">
-                <label asp-for="EmployeementType" class="control-label"></label>
-                <select asp-for="EmployeementType" class="form-control">
-                    <option value="">-- Select Employee Type --</option>
-                    <option value="Intern">Intern</option>
-                    <option value="Perment">Perment</option>
-                    <option value="Bond">Bond</option>
-                    <option value="Contract">Contract</option>
-                </select>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
