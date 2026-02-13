@@ -50,6 +50,8 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         {
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name");
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name");
+            ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType");
+
             return View();
         }
 
@@ -58,7 +60,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,EmployeeId,DepartmentId,Branch")] EmployeeDepartment employeeDepartment)
+        public async Task<IActionResult> Create([Bind("Id,EmployeeId,DepartmentId,EmployeemetnTypeId,Branch")] EmployeeDepartment employeeDepartment)
         {
             if (ModelState.IsValid)
             {
@@ -68,6 +70,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
+            ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId);
             return View(employeeDepartment);
         }
 
@@ -86,6 +89,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
+            ViewData["EmployeemetnTypeId"] = new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId);
             return View(employeeDepartment);
         }
 
@@ -94,7 +98,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,DepartmentId,Branch")] EmployeeDepartment employeeDepartment)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,EmployeeId,DepartmentId,EmployeemetnTypeId,Branch")] EmployeeDepartment employeeDepartment)
         {
             if (id != employeeDepartment.Id)
             {
@@ -123,7 +127,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
             }
             ViewData["DepartmentId"] = new SelectList(_context.Departments, "Id", "Name", employeeDepartment.DepartmentId);
             ViewData["EmployeeId"] = new SelectList(_context.Employees, "Id", "Name", employeeDepartment.EmployeeId);
-            return View(employeeDepartment);
+            ViewData["EmployeemetnTypeId"]= new SelectList(_context.EmployeemetnTypes, "Id", "EmployeementType", employeeDepartment.EmployeemetnTypeId); return View(employeeDepartment);
         }
 
         // GET: EmployeeDepartments/Delete/5

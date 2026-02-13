@@ -7,11 +7,9 @@ namespace hrms_min_ASP_Net_Core_Project.Models
         [Key]
         public int Id { get; set; }
 
-        public int EmployeeId { get; set; }
-
         public string EmployeementType { get; set; }
 
-        public Employee? Employee { get; set; }
+        
 
 
         public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();

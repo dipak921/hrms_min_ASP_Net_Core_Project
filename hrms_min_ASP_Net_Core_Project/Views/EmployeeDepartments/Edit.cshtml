@@ -24,6 +24,11 @@
                 <span asp-validation-for="DepartmentId" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EmployeemetnTypeId" class="control-label"></label>
+                <select asp-for="EmployeemetnTypeId" class="form-control" asp-items="ViewBag.EmployeemetnTypeId"></select>
+            </div>
+
+            <div class="form-group">
                 <label asp-for="Branch" class="control-label"></label>
                 <select asp-for="Branch" class="form-control">
                     <option value="">-- Select Branch --</option>

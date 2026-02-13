@@ -91,13 +91,39 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                     b.Property<int>("EmployeeId")
                         .HasColumnType("int");
 
+                    b.Property<string>("EmployeemetnTypeId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("EmployeemetnTypeId1")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DepartmentId");
 
                     b.HasIndex("EmployeeId");
 
+                    b.HasIndex("EmployeemetnTypeId1");
+
                     b.ToTable("EmployeeDepartments");
+                });
+
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.EmployeemetnType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("EmployeementType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeemetnTypes");
                 });
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Person", b =>
@@ -182,9 +208,15 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("hrms_min_ASP_Net_Core_Project.Models.EmployeemetnType", "EmployeemetnType")
+                        .WithMany("EmployeeDepartments")
+                        .HasForeignKey("EmployeemetnTypeId1");
+
                     b.Navigation("Department");
 
                     b.Navigation("Employee");
+
+                    b.Navigation("EmployeemetnType");
                 });
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Department", b =>
@@ -193,6 +225,11 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                 });
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Employee", b =>
+                {
+                    b.Navigation("EmployeeDepartments");
+                });
+
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.EmployeemetnType", b =>
                 {
                     b.Navigation("EmployeeDepartments");
                 });
