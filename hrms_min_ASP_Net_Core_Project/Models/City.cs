@@ -12,7 +12,5 @@ namespace hrms_min_ASP_Net_Core_Project.Models
 
         public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();
 
-
-
     }
 }

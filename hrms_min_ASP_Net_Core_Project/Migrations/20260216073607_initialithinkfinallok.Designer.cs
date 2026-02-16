@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hrms_min_ASP_Net_Core_Project.Models;
 
@@ -11,9 +12,11 @@ using hrms_min_ASP_Net_Core_Project.Models;
 namespace hrms_min_ASP_Net_Core_Project.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260216073607_initialithinkfinallok")]
+    partial class initialithinkfinallok
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -102,8 +105,12 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("CityId")
+                    b.Property<int?>("CityId")
                         .HasColumnType("int");
+
+                    b.Property<string>("CityName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("DepartmentId")
                         .HasColumnType("int");
@@ -216,9 +223,7 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                 {
                     b.HasOne("hrms_min_ASP_Net_Core_Project.Models.City", "City")
                         .WithMany("EmployeeDepartments")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("CityId");
 
                     b.HasOne("hrms_min_ASP_Net_Core_Project.Models.Department", "Department")
                         .WithMany("EmployeeDepartments")

@@ -17,7 +17,7 @@ namespace hrms_min_ASP_Net_Core_Project.Models
         public int EmployeemetnTypeId { get; set; }
 
         [Required, Display(Name = "City Name")]
-        public string  CityName { get; set; }
+        public int  CityId { get; set; }
 
 
         [Required, Display(Name = "Branch Name")]
