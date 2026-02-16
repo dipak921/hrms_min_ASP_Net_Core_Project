@@ -14,5 +14,7 @@ namespace hrms_min_ASP_Net_Core_Project.Models
         public DbSet<EmployeemetnType> EmployeemetnTypes { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<EmployeeDepartment> EmployeeDepartments { get; set; }
+        public DbSet<Attendance> Attendances { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
     }
 }

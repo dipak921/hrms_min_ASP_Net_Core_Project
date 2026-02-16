@@ -31,5 +31,8 @@ namespace hrms_min_ASP_Net_Core_Project.Models
 
         // Navigation property for the many-to-many relationship
         public ICollection<EmployeeDepartment> EmployeeDepartments { get; set; } = new List<EmployeeDepartment>();
+
+        public ICollection<Attendance> Attendances { get; set; } = new List<Attendance>();
+        public ICollection<LeaveRequest> LeaveRequests { get; set; } = new List<LeaveRequest>();
     }
 }

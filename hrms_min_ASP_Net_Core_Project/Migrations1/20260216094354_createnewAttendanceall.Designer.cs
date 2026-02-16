@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hrms_min_ASP_Net_Core_Project.Models;
 
@@ -11,9 +12,11 @@ using hrms_min_ASP_Net_Core_Project.Models;
 namespace hrms_min_ASP_Net_Core_Project.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20260216094354_createnewAttendanceall")]
+    partial class createnewAttendanceall
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,6 +24,35 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Attendance", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("AttendanceDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsPresent")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Remarks")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("EmployeeId");
+
+                    b.ToTable("Attendances");
+                });
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.City", b =>
                 {
@@ -212,6 +244,17 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
                     b.ToTable("Persons");
                 });
 
+            modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Attendance", b =>
+                {
+                    b.HasOne("hrms_min_ASP_Net_Core_Project.Models.Employee", "Employee")
+                        .WithMany("Attendances")
+                        .HasForeignKey("EmployeeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Employee");
+                });
+
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.EmployeeDepartment", b =>
                 {
                     b.HasOne("hrms_min_ASP_Net_Core_Project.Models.City", "City")
@@ -259,6 +302,8 @@ namespace hrms_min_ASP_Net_Core_Project.Migrations
 
             modelBuilder.Entity("hrms_min_ASP_Net_Core_Project.Models.Employee", b =>
                 {
+                    b.Navigation("Attendances");
+
                     b.Navigation("EmployeeDepartments");
                 });
 
