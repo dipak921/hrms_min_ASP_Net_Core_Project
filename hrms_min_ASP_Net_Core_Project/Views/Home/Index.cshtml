@@ -2,7 +2,60 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Welcome</h1>
+        <p class="lead">Learn about <a href="https://learn.microsoft.com/aspnet/core" class="text-primary text-decoration-none">building Web apps with ASP.NET Core</a>.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm border-start border-primary border-4">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase fw-semibold mb-2">Total Employees</h6>
+                    <h2 class="display-6 fw-bold mb-0">@ViewBag.TotalEmployee</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm border-start border-success border-4">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase fw-semibold mb-2">Total Departments</h6>
+                    <h2 class="display-6 fw-bold mb-0">@ViewBag.TotalDepartment</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm border-start border-warning border-4">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase fw-semibold mb-2">Total Employee Dept</h6>
+                    <h2 class="display-6 fw-bold mb-0">@ViewBag.TotalEmployeeDepartment</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="card h-100 border-0 shadow-sm border-start border-info border-4">
+                <div class="card-body">
+                    <h6 class="text-muted text-uppercase fw-semibold mb-2">Total Cities</h6>
+                    <h2 class="display-6 fw-bold mb-0">@ViewBag.TotalCitys</h2>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
+<style>
+    /* Subtle hover effect */
+    .card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+</style>
+
+

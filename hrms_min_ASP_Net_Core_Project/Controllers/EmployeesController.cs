@@ -23,6 +23,7 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         // GET: Employees
         public async Task<IActionResult> Index()
         {
+            //ViewBag.TotoalEmployee =  _context.Employees.Count();
             return View(await _context.Employees.ToListAsync());
         }
 
