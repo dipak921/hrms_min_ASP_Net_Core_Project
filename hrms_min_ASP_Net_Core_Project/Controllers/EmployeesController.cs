@@ -21,10 +21,44 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchString, string designationFilter,int page = 1)
         {
-            //ViewBag.TotoalEmployee =  _context.Employees.Count();
-            return View(await _context.Employees.ToListAsync());
+            int pageSize = 5;
+            var designationsList = await _context.Employees.Select(e => e.Desigantion)
+                .Distinct()
+                .OrderBy(d => d)
+                .ToListAsync();
+            var employees = from e in _context.Employees  select e;
+
+            if(!string.IsNullOrEmpty(designationFilter))
+            {
+                employees = employees.Where(e => e.Desigantion == designationFilter);
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                employees = employees.Where(e => e.Name.Contains(searchString)|| e.Desigantion.Contains(searchString));
+            }
+
+            ViewBag.DesignationFilter = new SelectList(designationsList);
+            ViewBag.CurrentFilter = searchString;
+            ViewBag.SelectedDesignation = designationFilter;
+
+            int totalItems = await employees.CountAsync();
+
+            employees = employees.OrderBy(e => e.Name);
+
+            var paginatedEmployees = await employees .OrderBy(e => e.Name)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = (int)Math.Ceiling(totalItems/(double) pageSize);
+
+            return View(paginatedEmployees);
+
+            //return View(await _context.Employees.ToListAsync());
         }
 
         // GET: Employees/Details/5

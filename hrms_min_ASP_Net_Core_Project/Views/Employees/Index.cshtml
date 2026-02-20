@@ -5,6 +5,26 @@
 }
 
 <h1>Index</h1>
+
+@using (Html.BeginForm("Index", "Employees", FormMethod.Get))
+{
+    <div class="row">
+        <div class="col-md-4">
+            <input type="text" name="searchString" value="@ViewBag.CurrentFilter" class="form-control" placeholder="Search by name..." />
+        </div>
+        <div class="col-md-4">
+            <select name="designationFilter" asp-items="ViewBag.DesignationFilter" class="form-control">
+                <option value="">-- All Designations --</option>
+                
+            </select>
+        </div>
+        <div class="col-md-4">
+            <button type="submit" class="btn btn-primary">Search & Filter</button>
+        </div>
+    </div>
+}
+
+
 @if (TempData["InsertMessage"] != null)
 {
     <div class="alert alert-success alert-dismissible fade show shadow-sm" role="alert">
@@ -21,7 +41,7 @@
 }
 
 <p>
-    <a asp-action="Create" class="btn btn-primary">Create New</a>
+    <a asp-action="Create" class="btn btn-primary mt-2">Create New</a>
 </p>
 <table class="table table-striped-columns table-bordered table-hover align-middle text-center shadow-sm">
     <thead>
@@ -45,6 +65,8 @@
         </tr>
     </thead>
     <tbody>
+        @if (Model != null && Model.Any())
+{
 @foreach (var item in Model) {
         <tr>
             <td>
@@ -76,6 +98,32 @@
                     <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a>
             </td>
         </tr>
-}
+            }
+            }
+            else
+            {
+                  <tr>
+        <td colspan="6" class="text-center">
+            <div class="alert alert-warning mt-3">
+                <strong>No Data Found!</strong> There are no records to display at this time.
+            </div>
+        </td>
+    </tr>
+            }
+          
+
     </tbody>
 </table>
+
+<nav aria-label="Page navigation example">
+    <ul class="pagination">
+        @for (int i = 1; i <= (int)ViewBag.TotalPages; i++)
+        {
+            <li class="page-item @(i == ViewBag.CurrentPage ? "active" : "")">
+                <a class="page-link" href="@Url.Action("Index", new { page = i,
+                    searchString = ViewBag.CurrentFilter,
+                    designationFilter = ViewBag.SelectedDesignation })">@i</a>
+            </li>
+        }
+    </ul>
+</nav>
