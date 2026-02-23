@@ -9,19 +9,30 @@
 @using (Html.BeginForm("Index", "Employees", FormMethod.Get))
 {
     <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-2">
             <input type="text" name="searchString" value="@ViewBag.CurrentFilter" class="form-control" placeholder="Search by name..." />
         </div>
-        <div class="col-md-4">
+        <div class="col-md-2">
             <select name="designationFilter" asp-items="ViewBag.DesignationFilter" class="form-control">
                 <option value="">-- All Designations --</option>
                 
             </select>
         </div>
-        <div class="col-md-4">
+        <!-- From Date -->
+    <div class="col-md-2">
+        <input type="date" name="fromDate" value="@ViewBag.FromDate" class="form-control" />
+    </div>
+
+    <!-- To Date -->
+    <div class="col-md-2">
+        <input type="date" name="toDate" value="@ViewBag.ToDate" class="form-control" />
+    </div>
+
+        <div class="col-md-2">
             <button type="submit" class="btn btn-primary">Search & Filter</button>
         </div>
     </div>
+      
 }
 
 

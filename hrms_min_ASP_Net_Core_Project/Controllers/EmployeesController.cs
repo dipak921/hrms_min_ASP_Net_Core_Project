@@ -21,45 +21,69 @@ namespace hrms_min_ASP_Net_Core_Project.Controllers
         }
 
         // GET: Employees
-        public async Task<IActionResult> Index(string searchString, string designationFilter,int page = 1)
+        public async Task<IActionResult> Index(
+    string searchString,
+    string designationFilter,
+    DateTime? fromDate,
+    DateTime? toDate,
+    int page = 1)
         {
             int pageSize = 5;
-            var designationsList = await _context.Employees.Select(e => e.Desigantion)
+
+            var designationsList = await _context.Employees
+                .Select(e => e.Desigantion)
                 .Distinct()
                 .OrderBy(d => d)
                 .ToListAsync();
-            var employees = from e in _context.Employees  select e;
 
-            if(!string.IsNullOrEmpty(designationFilter))
+            var employees = _context.Employees.AsQueryable();
+
+            // 🔹 Filter by Designation
+            if (!string.IsNullOrEmpty(designationFilter))
             {
                 employees = employees.Where(e => e.Desigantion == designationFilter);
             }
 
+            // 🔹 Search Filter
             if (!string.IsNullOrEmpty(searchString))
             {
-                employees = employees.Where(e => e.Name.Contains(searchString)|| e.Desigantion.Contains(searchString));
+                employees = employees.Where(e =>
+                    e.Name.Contains(searchString) ||
+                    e.Desigantion.Contains(searchString));
             }
+
+            // 🔹 Filter Between Two Dates
+            if (fromDate.HasValue && toDate.HasValue)
+            {
+                employees = employees.Where(e =>
+                    e.JoingDate.Date >= fromDate.Value.Date &&
+                    e.JoingDate.Date <= toDate.Value.Date);
+            }
+
+            // 🔢 Count Employees Joined Between Dates
+            int totalJoined = await employees.CountAsync();
+
+            ViewBag.TotalJoined = totalJoined;
+            ViewBag.FromDate = fromDate?.ToString("yyyy-MM-dd");
+            ViewBag.ToDate = toDate?.ToString("yyyy-MM-dd");
 
             ViewBag.DesignationFilter = new SelectList(designationsList);
             ViewBag.CurrentFilter = searchString;
             ViewBag.SelectedDesignation = designationFilter;
 
-            int totalItems = await employees.CountAsync();
-
-            employees = employees.OrderBy(e => e.Name);
-
-            var paginatedEmployees = await employees .OrderBy(e => e.Name)
+            // Pagination
+            var paginatedEmployees = await employees
+                .OrderBy(e => e.Name)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
 
             ViewBag.CurrentPage = page;
-            ViewBag.TotalPages = (int)Math.Ceiling(totalItems/(double) pageSize);
+            ViewBag.TotalPages = (int)Math.Ceiling(totalJoined / (double)pageSize);
 
             return View(paginatedEmployees);
-
-            //return View(await _context.Employees.ToListAsync());
         }
+
 
         // GET: Employees/Details/5
         public async Task<IActionResult> Details(int? id)
