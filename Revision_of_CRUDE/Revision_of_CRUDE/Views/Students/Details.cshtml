@@ -1,0 +1,42 @@
+﻿@model Revision_of_CRUDE.Models.Student
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Student</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StudetnName)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StudetnName)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StudetnEmail)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StudetnEmail)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.StudetnCourse)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.StudetnCourse)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.EnrollmentDate)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.EnrollmentDate)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model?.StudetnId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
